@@ -43,7 +43,7 @@ class MatcheController extends Controller
     }
     public function store(StoreRequest $request)
     {
-        dd($request);
+
         if($request->team_1==$request->team_2){
              return "Um time não pode fazer partida contra ele mesmo";
         }

@@ -24,8 +24,8 @@ class StoreRequest extends BaseRequest
             'end_date' => 'required|string|max:255',
             'score_team1' => 'required|string|max:255',
             'score_team2' => 'required|string|max:255',
-            'team_1' => 'required|string|unique:team_1,team_2',
-            'team_2' => 'required|string|unique:team_2,team_1',
+            'team_1' => 'required|string',
+            'team_2' => 'required|string',
         ];
     }
 }
