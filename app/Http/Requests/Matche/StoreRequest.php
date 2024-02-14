@@ -33,7 +33,7 @@ class StoreRequest extends BaseRequest
     public function messages()
     {
         return [
-            'team_1.unique' => 'Um time só pode jogar contra o outro duas vezes.',
+            'team_1.unique' => 'O time :attribute  ja jogou contra esse time como mandante.',
         ];
     }
 }

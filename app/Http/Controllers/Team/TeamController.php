@@ -40,10 +40,19 @@ class TeamController extends Controller
     }
     public function store(StoreRequest $request)
     {
+        $teams = Team::all();
+        if (sizeof($teams)<9){
+            Team::create($request->all());
+            if (sizeof($teams)==9){
+               return "Ultimo time criado com sucesso";
+            }else{
+               return "Time criado com sucesso";
+            }
 
-        Team::create($request->all());
+        }else{
+            return "Todos os 10 times foram cadastrados";
+        }
 
-        return "Time criado com sucesso";
     }
 
     public function update(UpdateRequest $request, $id)
@@ -58,7 +67,24 @@ class TeamController extends Controller
     public function show($id)
     {
         $team = Team::find($id);
-        return $team;
+
+        $data = [
+            'id'         => (string) $team->id,
+            'nome'         => (string) $team->nome,
+        ];
+        foreach($team->player as $player) {
+            $team_players [] = [
+                'nome' => $player->nome,
+                'numero_camisa' => $player->numero_camisa,
+            ];
+        }
+        if(!empty($team_players)) {
+            $data += [
+                'players'         => $team_players,
+            ];
+        }
+
+        return $data;
     }
 
     public function delete($id)

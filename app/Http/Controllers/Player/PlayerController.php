@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Player;
 
-use App\Http\Controllers\Controller;
+use App\Models\Team;
 use App\Models\Player;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Player\StoreRequest;
 use App\Http\Requests\Player\UpdateRequest;
 
@@ -53,10 +54,22 @@ class PLayerController extends Controller
     }
     public function store(StoreRequest $request)
     {
+        $team=Team::find($request->team_id);
 
-        Player::create($request->all());
+        if (sizeof($team->player)<9){
+            Player::create($request->all());
+            if (sizeof($team->player)==8){
+               return "Ultimo jogador do time registrado com sucesso";
+            }else{
+               return "Jogador registrado no time sucesso";
+            }
+        }else{
+            return "Todos os 9 jogadores ja foram cadastrados no time";
+        }
 
-        return "Jogador criado com sucesso";
+
+
+        return "Jogador adicionado ao time com sucesso";
     }
 
 
