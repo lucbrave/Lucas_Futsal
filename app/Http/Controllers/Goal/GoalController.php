@@ -11,6 +11,7 @@ use App\Http\Requests\Goal\StoreRequest;
 
 class GoalController extends Controller
 {
+    // Retorna todos os gols
     public function index()
     {
         $goals = Goal::all();
@@ -18,7 +19,7 @@ class GoalController extends Controller
         return $goals;
     }
 
-
+    // Salva Gol
     public function store(StoreRequest $request)
     {
         Goal::create($request->all());
