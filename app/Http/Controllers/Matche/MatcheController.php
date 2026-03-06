@@ -14,6 +14,8 @@ class MatcheController extends Controller
     {
         $matches = Matche::all();
         $playerdMatches = [];
+
+        // Retorna as partidas
         foreach($matches as $matche) {
             $team_match = [];
             $data = [
@@ -42,8 +44,10 @@ class MatcheController extends Controller
 
         return $playerdMatches;
     }
+
     public function store(StoreRequest $request)
     {
+        // Regra um time não pode jogar contra si mesmo
         if($request->team_1==$request->team_2){
              return "Um time não pode fazer partida contra ele mesmo";
         }
