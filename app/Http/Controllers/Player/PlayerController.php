@@ -10,6 +10,16 @@ use App\Http\Requests\Player\UpdateRequest;
 
 class PLayerController extends Controller
 {
+    /**
+     * Lista os jogadores cadastrados, com time e estatísticas de gols.
+     *
+     * Para cada jogador, retorna:
+     * - Dados básicos (id, nome)
+     * - Nome do time
+     * - Total de gols e em quais partidas os gols ocorreram
+     *
+     * @return array<int, array<string, mixed>>
+     */
     public function index()
     {
         $players = Player::all();
@@ -52,6 +62,14 @@ class PLayerController extends Controller
 
         return $playersTeam;
     }
+    /**
+     * Cadastra um jogador em um time, respeitando o limite de jogadores por time.
+     *
+     * Regra aplicada: cada time pode ter no máximo 9 jogadores.
+     *
+     * @param  \App\Http\Requests\Player\StoreRequest  $request  Dados validados do jogador.
+     * @return string  Mensagem de sucesso/erro.
+     */
     public function store(StoreRequest $request)
     {
         $team=Team::find($request->team_id);
@@ -74,6 +92,13 @@ class PLayerController extends Controller
 
 
 
+    /**
+     * Atualiza os dados de um jogador existente.
+     *
+     * @param  \App\Http\Requests\Player\UpdateRequest  $request  Dados validados para atualização.
+     * @param  mixed  $id  Identificador do jogador.
+     * @return string  Mensagem de confirmação.
+     */
     public function update(UpdateRequest $request, $id)
     {
 
@@ -83,12 +108,24 @@ class PLayerController extends Controller
 
     }
 
+    /**
+     * Exibe os dados de um jogador pelo id.
+     *
+     * @param  mixed  $id  Identificador do jogador.
+     * @return \App\Models\Player|null
+     */
     public function show($id)
     {
         $player = Player::find($id);
         return $player;
     }
 
+    /**
+     * Remove um jogador pelo id.
+     *
+     * @param  mixed  $id  Identificador do jogador.
+     * @return string  Mensagem de confirmação.
+     */
     public function delete($id)
     {
         $player = Player::find($id);

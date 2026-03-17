@@ -11,6 +11,13 @@ use App\Http\Requests\Goal\StoreRequest;
 
 class GoalController extends Controller
 {
+    /**
+     * Lista todos os gols cadastrados.
+     *
+     * Retorna a coleção completa de registros de `Goal`.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, \App\Models\Goal>
+     */
     public function index()
     {
         $goals = Goal::all();
@@ -19,6 +26,16 @@ class GoalController extends Controller
     }
 
 
+    /**
+     * Registra um novo gol e atualiza o placar da partida.
+     *
+     * - Cria o registro de `Goal` a partir dos dados validados.
+     * - Localiza a partida (`Matche`) e o jogador (`Player`) informados.
+     * - Incrementa o placar do time correspondente ao time do jogador.
+     *
+     * @param  \App\Http\Requests\Goal\StoreRequest  $request  Dados validados do gol (inclui `matche` e `player`).
+     * @return string  Mensagem de confirmação.
+     */
     public function store(StoreRequest $request)
     {
         Goal::create($request->all());

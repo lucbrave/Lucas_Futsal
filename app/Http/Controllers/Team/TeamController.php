@@ -11,6 +11,13 @@ use App\Http\Requests\Goal\GoalStoreRequest;
 
 class TeamController extends Controller
 {
+    /**
+     * Lista os times cadastrados com seus jogadores.
+     *
+     * Retorna um array com `id`, `nome` e, quando existir, a lista de jogadores do time.
+     *
+     * @return array<int, array<string, mixed>>
+     */
     public function index()
     {
         $times = [];
@@ -38,6 +45,13 @@ class TeamController extends Controller
 
         return $times;
     }
+
+    /**
+     * Cadastra um novo time, respeitando o limite máximo de times.
+     *
+     * @param  \App\Http\Requests\Team\StoreRequest  $request  Dados validados do time.
+     * @return string  Mensagem de sucesso/erro.
+     */
     public function store(StoreRequest $request)
     {
         $teams = Team::all();
@@ -55,6 +69,13 @@ class TeamController extends Controller
 
     }
 
+    /**
+     * Atualiza os dados de um time existente.
+     *
+     * @param  \App\Http\Requests\Team\UpdateRequest  $request  Dados validados para atualização.
+     * @param  mixed  $id  Identificador do time.
+     * @return string  Mensagem de confirmação.
+     */
     public function update(UpdateRequest $request, $id)
     {
 
@@ -64,6 +85,12 @@ class TeamController extends Controller
 
     }
 
+    /**
+     * Exibe os dados de um time e seus jogadores.
+     *
+     * @param  mixed  $id  Identificador do time.
+     * @return array<string, mixed>
+     */
     public function show($id)
     {
         $team = Team::find($id);
@@ -87,6 +114,12 @@ class TeamController extends Controller
         return $data;
     }
 
+    /**
+     * Remove um time pelo id.
+     *
+     * @param  mixed  $id  Identificador do time.
+     * @return string  Mensagem de confirmação.
+     */
     public function delete($id)
     {
         $team = Team::find($id);
@@ -94,6 +127,16 @@ class TeamController extends Controller
         return "Time " . $team->id . " removido com sucesso";
     }
 
+    /**
+     * Calcula a pontuação de um time (vitória/empate) com base nas partidas.
+     *
+     * Regras:
+     * - Empate: +1 ponto
+     * - Vitória: +3 pontos
+     *
+     * @param  mixed  $id  Identificador do time.
+     * @return int  Pontos acumulados.
+     */
     public function points($id)
     {
         $team = Team::find($id);
@@ -117,6 +160,11 @@ class TeamController extends Controller
         return $points;
     }
 
+    /**
+     * Retorna o ranking (classificação) dos times por pontuação.
+     *
+     * @return \Illuminate\Support\Collection<int, array<string, mixed>>
+     */
     public function ranking()
     {
         $teams = Team::all();

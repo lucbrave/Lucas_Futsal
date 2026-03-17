@@ -10,6 +10,14 @@ use App\Http\Requests\Matche\UpdateRequest;
 
 class MatcheController extends Controller
 {
+    /**
+     * Lista as partidas cadastradas, incluindo times e jogadores relacionados.
+     *
+     * Monta uma lista "serializada" com placar e dados dos dois times.
+     * Também força o carregamento dos jogadores de cada time via relacionamento.
+     *
+     * @return array<int, array<string, mixed>>
+     */
     public function index()
     {
         $matches = Matche::all();
@@ -42,6 +50,18 @@ class MatcheController extends Controller
 
         return $playerdMatches;
     }
+
+    /**
+     * Cadastra uma nova partida, aplicando regras de validação de negócio.
+     *
+     * Regras aplicadas:
+     * - Um time não pode jogar contra ele mesmo.
+     * - Cada time deve possuir pelo menos 7 jogadores para iniciar a partida.
+     * - Limita a quantidade total de partidas cadastradas.
+     *
+     * @param  \App\Http\Requests\Matche\StoreRequest  $request  Dados validados da partida.
+     * @return string  Mensagem de sucesso/erro.
+     */
     public function store(StoreRequest $request)
     {
         if($request->team_1==$request->team_2){
@@ -69,8 +89,13 @@ class MatcheController extends Controller
 
     }
 
-
-
+    /**
+     * Atualiza uma partida existente.
+     *
+     * @param  \App\Http\Requests\Matche\UpdateRequest  $request  Dados validados para atualização.
+     * @param  mixed  $id  Identificador da partida.
+     * @return string  Mensagem de confirmação.
+     */
     public function update(UpdateRequest $request, $id)
     {
 
@@ -80,12 +105,24 @@ class MatcheController extends Controller
 
     }
 
+    /**
+     * Exibe os dados de uma partida pelo id.
+     *
+     * @param  mixed  $id  Identificador da partida.
+     * @return \App\Models\Matche|null
+     */
     public function show($id)
     {
         $Matche = Matche::find($id);
         return $Matche;
     }
 
+    /**
+     * Remove uma partida pelo id.
+     *
+     * @param  mixed  $id  Identificador da partida.
+     * @return string  Mensagem de confirmação.
+     */
     public function delete($id)
     {
         $Matche = Matche::find($id);
